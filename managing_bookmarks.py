@@ -7,12 +7,12 @@ os.environ.setdefault('AWS_PROFILE','itvgithub')
 
 s3_client = boto3.client('s3')
 
-bookmark_contents = '2021-01-02-0.json.gz'
+bookmark_contents = '2021-01-01-0.json.gz'
 
 try:
-    bookmark_file = s3_client.get_object(Bucket='itv-github-gx',Key='sandbox')
+    bookmark_file = s3_client.get_object(Bucket='itv-github-gx',Key='sandbox/bookmark')
     
-    print(bookmark_file['Body'].read().decode('utf-8'))
+    prev_file = bookmark_file['Body'].read().decode('utf-8')
     
     except ClientError as e:
         
@@ -21,7 +21,7 @@ try:
         else:
             raise
         
-    dt_part = next_file.split('.')[0]
+    dt_part = prev_file.split('.')[0]
     next_file = f"{dt.strftime(dt.strptime(dt_part,'%Y-%M-%d-%H')+td(hours=1),'%Y-%M-%d-%-H')}"
     res = requests.get(f'https://data.gharchive.org/{next_file}')
     
@@ -34,8 +34,8 @@ try:
     
     '''s3_client.put_object(
         Bucket = 'itv-github-gx',
-        Key = 'sandbox',
-        Body = bookmark_contents.encode('utf-8'))
+        Key = 'sandbox/bookmark',
+        Body = bookmark_contents.encode('utf-8'))'''
         
 except:
     

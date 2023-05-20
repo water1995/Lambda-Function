@@ -6,5 +6,5 @@ def download_file(file):
     
     return res
     
-res = download_file('2021-01-29-0.json.gz')
-print(res.status_code)
+'''res = download_file('2021-01-29-0.json.gz')
+print(res.status_code)'''
